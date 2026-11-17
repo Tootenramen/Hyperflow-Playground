@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Hyperflow Playground</title>
+<meta name="description" content="Paste an alert, log or email headers. Get indicators, pivots, a triage summary, a ticket draft and a Sigma stub. Runs entirely in your browser.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l12 7v14l-12 7L4 23V9z' fill='%2307080b' stroke='%23ffd400' stroke-width='2'/%3E%3Cpath d='M10 16h9m-3-4l4 4-4 4' fill='none' stroke='%2300e5ff' stroke-width='2.2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="bg-grid" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="brand" href="./" aria-label="Hyperflow Playground">
+    <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2l12 7v14l-12 7L4 23V9z" fill="#07080b" stroke="#ffd400" stroke-width="2"/><path d="M10 16h9m-3-4l4 4-4 4" fill="none" stroke="#00e5ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span><b>HYPERFLOW</b> <i>PLAYGROUND</i></span>
+  </a>
+  <details class="proof">
+    <summary><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10V7a6 6 0 1112 0v3h1a1 1 0 011 1v9a1 1 0 01-1 1H5a1 1 0 01-1-1v-9a1 1 0 011-1zm2 0h8V7a4 4 0 10-8 0z" fill="currentColor"/></svg> Nothing leaves your browser</summary>
+    <div class="proof-body">
+      <p>This page has no backend, no analytics and no accounts. A Content-Security-Policy in the page header sets <code>connect-src 'none'</code>, so the browser itself refuses any network request the page tries to make.</p>
+      <p>Check it yourself: open DevTools, switch to <b>Network</b>, paste something and analyze. Links to lookup sites only open when you click them.</p>
+    </div>
+  </details>
+  <nav class="toplinks">
+    <a href="tests.html">Self-test</a>
+    <a href="https://github.com/Tootenramen/Hyperflow-Playground" rel="noopener noreferrer">Source</a>
+    <a href="https://github.com/Tootenramen" rel="noopener noreferrer">More projects</a>
+  </nav>
+</header>
+
+<section class="intro">
+  <p class="eyebrow">SOC TRIAGE, AUTOMATED IN THE BROWSER</p>
+  <h1>Paste an alert. Get a case you can hand off.</h1>
+  <p class="lede">Drop in a log line, an EDR alert or raw email headers. The playbook pulls out the indicators, builds the pivot links, flags what looks wrong, and drafts the summary, ticket and detection rule.</p>
+</section>
+
+<section class="playbook" id="playbook" aria-label="Playbook progress"></section>
+
+<main class="grid">
+  <section class="panel input-panel" aria-label="Input">
+    <div class="panel-head">
+      <h2>1 &middot; Input</h2>
+      <div class="samples" id="samples" role="group" aria-label="Load a sample"></div>
+    </div>
+    <textarea id="input" spellcheck="false" autocomplete="off" placeholder="Paste an alert, log lines, a ticket body, or full email headers here...&#10;&#10;Defanged text (hxxp, [.], [at]) is fine, it is restored automatically.&#10;Ctrl+Enter to analyze."></textarea>
+    <div class="actions">
+      <button class="btn primary" id="analyze">Run playbook <kbd>Ctrl&#8201;+&#8201;Enter</kbd></button>
+      <button class="btn" id="clear">Clear</button>
+      <label class="check"><input type="checkbox" id="opt-refang" checked> restore defanged text</label>
+      <span class="meta" id="input-meta"></span>
+    </div>
+  </section>
+
+  <section class="panel output-panel" aria-label="Results">
+    <div class="tabs" role="tablist" id="tabs">
+      <button role="tab" class="tab on" data-tab="iocs" aria-selected="true">Indicators <span class="badge" id="b-iocs">0</span></button>
+      <button role="tab" class="tab" data-tab="email" aria-selected="false">Email <span class="badge" id="b-email">-</span></button>
+      <button role="tab" class="tab" data-tab="decode" aria-selected="false">Decode <span class="badge" id="b-decode">0</span></button>
+      <button role="tab" class="tab" data-tab="report" aria-selected="false">Report</button>
+      <button role="tab" class="tab" data-tab="sigma" aria-selected="false">Sigma</button>
+    </div>
+
+    <div class="pane on" id="pane-iocs" role="tabpanel"></div>
+    <div class="pane" id="pane-email" role="tabpanel"></div>
+    <div class="pane" id="pane-decode" role="tabpanel"></div>
+    <div class="pane" id="pane-report" role="tabpanel"></div>
+    <div class="pane" id="pane-sigma" role="tabpanel"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>Built by <a href="https://github.com/Tootenramen" rel="noopener noreferrer">Gustavo Freitas</a> &middot; <a href="https://www.linkedin.com/in/gustavo-freitas-69b93910b/" rel="noopener noreferrer">LinkedIn</a> &middot; <a href="https://github.com/Tootenramen" rel="noopener noreferrer">more projects</a></span>
+  <span>Samples are synthetic (RFC 5737 addresses, example domains). Treat every verdict as a lead, not a conclusion.</span>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/ioc.js"></script>
+<script src="assets/samples.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

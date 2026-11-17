@@ -1,0 +1,6 @@
+{
+  "name": "hyperflow-playground",
+  "private": true,
+  "description": "Browser-only security triage tool. No build step; this file only pins Node to CommonJS for the self-test.",
+  "scripts": { "test": "node assets/tests.js" }
+}

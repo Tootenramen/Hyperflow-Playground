@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'none'; base-uri 'none'">
+<title>Hyperflow Playground - self-test</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body class="tests">
+<p><a href="./">&larr; back to the playground</a></p>
+<h1>Self-test</h1>
+<p style="color:var(--mute)">Real assertions against the extraction, header, decoder, report and Sigma code. They run in your browser right now; the same file also runs under Node with <code>node assets/tests.js</code>.</p>
+<div id="summary">running...</div>
+<div id="results"></div>
+<script src="assets/ioc.js"></script>
+<script src="assets/samples.js"></script>
+<script src="assets/tests.js"></script>
+</body>
+</html>
